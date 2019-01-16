@@ -1,0 +1,167 @@
+// MARK: 15
+/*
+ 1. Создать структуру “Описание файла” содержащую свойства:
+ - путь к файлу
+ - имя файла
+ - максимальный размер файла на диске
+ - путь к папке, содержащей этот файл
+ - тип файла (скрытый или нет)
+ - содержимое файла (можно просто симулировать контент)
+ 
+ Главная задача - это использовать правильные свойства там, где нужно, чтобы не пришлось хранить одни и те же данные в разных местах и т.д. и т.п.
+ */
+
+struct Aboutfile {
+    
+    var path: String
+    
+    var name: String {
+        
+        let line = path.components(separatedBy: "/")
+        
+        return line.last ?? "nil"
+    }
+    
+    let weight = 1024
+    
+    var folder: String? {
+        
+        var lineF = path.components(separatedBy: "/")
+        
+        if lineF.count > 0 {
+            
+        lineF.removeLast()
+            
+        return lineF.joined(separator: "/")
+            
+        } else {
+            return nil
+        }
+    }
+    
+    static var isHidden: Bool = true
+    
+    static var file = "Very, very, very long read..."
+}
+
+var file = Aboutfile(path: "/Users/vladimirryndin/Library/Autosave Information/HomeWorkLesson14-15.playground")
+print(file.name)
+print(file.folder!)
+
+
+// MARK:
+//2. Создайте энум, который будет представлять некую цветовую гамму. Этот энум должен быть типа Int и как raw значение должен иметь соответствующее 3 байтное представление цвета. Добавьте в этот энум 3 свойства типа: количество цветов в гамме, начальный цвет и конечный цвет.
+
+enum Color: Int {
+    
+    case red = 25500
+    case green = 01280
+    case blue = 00255
+    
+    static var colorCount = 3
+    
+    static var firstColor = Color.red
+
+    static var lastColor = Color.blue
+    
+}
+
+/*
+ // MARK: 15
+ 
+ 3. Создайте класс человек, который будет содержать имя, фамилию, возраст, рост и вес. Добавьте несколько свойств непосредственно этому классу чтобы контролировать:
+ - минимальный и максимальный возраст каждого объекта
+ - минимальную и максимальную длину имени и фамилии
+ - минимально возможный рост и вес
+ - самое интересное, создайте свойство, которое будет содержать количество созданных объектов этого класса
+ */
+
+var maximumAge = 120
+var minimumAge = 1
+var maximumStringLenght = 20
+var minimumStringLenght = 1
+var minimumWeight = 35
+var minimumHeight = 100
+
+class Human {
+    
+    var name: String {
+        didSet {
+            name = name.capitalized
+            if name.count > maximumStringLenght {
+                print("Error maximum lenght of string name")
+                name = oldValue
+            } else if name.count <= minimumStringLenght {
+                print("Error minimum lenght of string name ")
+                name = oldValue
+            }
+        }
+    }
+    
+    var fatherName: String {
+        didSet {
+            fatherName = fatherName.capitalized
+            if fatherName.count > maximumStringLenght {
+                print("Error maximum lenght of string fatherName")
+                fatherName = oldValue
+            } else if fatherName.count <= minimumStringLenght {
+                print("Error minimum lenght of string fatherName")
+                fatherName = oldValue
+            }
+        }
+    }
+    
+    var age: Int {
+        didSet {
+            if age > maximumAge {
+                age = maximumAge
+            } else if age <= minimumAge {
+                age = minimumAge
+            }
+        }
+    }
+    
+    var height: Int {
+        didSet {
+            if height < minimumHeight {
+                height = minimumHeight
+            }
+        }
+    }
+    
+    var weight: Int {
+        didSet {
+            if weight < minimumWeight {
+                weight = minimumWeight
+            }
+        }
+    }
+    
+    var counHumans: Int = 0
+    
+    init(name: String, fatherName: String, age: Int, height: Int, weight: Int) {
+        self.name = name
+        self.fatherName = fatherName
+        self.age = age
+        self.height = height
+        self.weight = weight
+        
+        counHumans += 1
+    }
+}
+
+var human = Human(name: "Volod", fatherName: "Ryndin", age: 31, height: 182, weight: 84)
+human.age = 134
+print(human.age)
+
+human.name = "fbkjfhosnsdfsdsdsdsdsddf"
+print(human.name)
+
+human.fatherName = "dsfjksdhfkjsdsddsdsdsdsd"
+print(human.fatherName)
+
+human.height = 12
+print(human.height)
+
+human.weight = 1
+print(human.weight)
